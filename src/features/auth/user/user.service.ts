@@ -86,7 +86,7 @@ export class UserService {
         if(!result.success){
             return {
                 success : result.success,
-                message : result.message.email ?? result.message.password ?? result.message.name ?? result.message.phone
+                message : result.message.email[0] ?? result.message.password ?? result.message.name ?? result.message.phone
             }
         }
 
