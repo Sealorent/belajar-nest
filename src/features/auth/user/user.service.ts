@@ -74,15 +74,27 @@ export class UserService {
 
     async signUpOfficer(signUpDto : SignUpDto){
         
-        const result = await fetch(`${this.urlService.user_service}/officers/sign-up`,{
+        const response = await fetch(`${this.urlService.user_service}/officers/sign-up`,{
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
             },
             body : JSON.stringify(signUpDto)
         })
+        const result = await response.json();
 
-        return await result.json()
+        if(!result.success){
+            return {
+                success : result.success,
+                message : result.message.email ?? result.message.password ?? result.message.name ?? result.message.phone
+            }
+        }
+
+        return {
+            success : result.success,
+            message : result.message
+        }
+
     }
 
 
