@@ -60,12 +60,18 @@ export class UserService {
 
     async checkOfficer(signInDto : SignInDto) {
 
+        const dto = {
+            email : signInDto.email,
+            password : signInDto.password,
+            token_fcm : signInDto.token_fcm ?? 'fr07KOE5SyWMJAwqnI5o1w:APA91bEehyCq1c95oLZEMTpBf8MFl7A99YME3WxCU5tg75QXAraIbJD4RF7tyYl-btleBrQPyqG-4KhFJCkZwiq08QCfEYfvgKTYcp7QMrdVnhYWrib6cJxHzmjDn--xh_RaEm1Sgs49'
+        }
+
         const result = await fetch(`${this.urlService.user_service}/officers/sign-in`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(signInDto),
+            body: JSON.stringify(dto),
         });
         
         return await result.json();
