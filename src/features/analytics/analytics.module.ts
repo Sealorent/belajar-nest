@@ -3,12 +3,14 @@ import { AnalyticsService } from './analytics.service';
 import { AnalyticsController } from './analytics.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from '../../database/userservice/entities/Users';
+import { Regcodes } from '../../database/userservice/entities/Regcodes';
 
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
+      Regcodes,
       Users
     ]),
   ],

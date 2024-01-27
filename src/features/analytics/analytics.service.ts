@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../../database/userservice/entities/Users';
-import { User } from '../../database/userservice/entities/User';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Regcodes } from '../../database/userservice/entities/Regcodes';
+import { CourseDto } from './dto/course.dto';
 
 
 
@@ -12,14 +13,53 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class AnalyticsService {
     
     constructor(
+
         @InjectRepository(Users)
         private  userRespository: Repository<Users>,
+
+        @InjectRepository(Regcodes)
+        private  regcodesRespository: Repository<Regcodes>,
+        
         private  dataSource: DataSource
 
     ) {}
     
     test() {
         return this.userRespository.find();
+    }
+
+    getYear() {
+        return this.regcodesRespository.query(
+            'SELECT YEAR(periode) AS year, YEAR(periode) as uid FROM regcodes GROUP BY year'
+        );
+    }
+
+   async getMonth() {
+        const result = await this.regcodesRespository.query(
+            'SELECT MONTH(periode) AS month FROM regcodes GROUP BY month'
+        );
+    
+        const monthNames = [
+            'Januari', 'Februari', 'Maret', 'April',
+            'Mei', 'Juni', 'Juli', 'Augustus',
+            'September', 'October', 'November', 'Desember'
+        ];
+    
+        const mappedResult = result.map(item => ({
+            uid: item.month,
+            month: monthNames[item.month - 1],  // Adjust for zero-based indexing
+        }));
+    
+        return mappedResult;
+
+
+    }
+
+    getAllDataRegcodes(course : CourseDto) {
+        return this.regcodesRespository.query(
+            'SELECT course_name AS name, periode, COUNT(*) AS total FROM regcodes WHERE YEAR(periode) = ? AND MONTH(periode) = ? GROUP BY course_name',
+            [course.year, course.month]
+        );
     }
 
     usingQuery() {
@@ -59,7 +99,7 @@ export class AnalyticsService {
                 await queryRunner.manager
                 .createQueryBuilder()
                 .insert()
-                .into(User) // Assuming your entity is named User and mapped to the users table
+                .into(Users) // Assuming your entity is named User and mapped to the users table
                 .values({ name: user.name })
                 .execute();
               }

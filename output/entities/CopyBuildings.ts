@@ -1,8 +1,8 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Index("building_uid", ["buildingUid"], {})
-@Entity("buildings", { schema: "UserDB_KIMO" })
-export class Buildings {
+@Entity("copy_buildings", { schema: "UserDB_KIMO" })
+export class CopyBuildings {
   @PrimaryGeneratedColumn({ type: "int", name: "building_id" })
   buildingId: number;
 

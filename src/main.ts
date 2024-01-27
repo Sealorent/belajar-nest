@@ -26,7 +26,7 @@ async function bootstrap() {
   // swagger setup
   const document = SwaggerModule.createDocument(app, config);
   app.use(
-    '/docs',
+    '/api',
     basicAuth({
       users: { 
         admin : "password",
@@ -34,7 +34,7 @@ async function bootstrap() {
       challenge: true,
     }),
   );
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api', app, document);
   // end swagger setup
 
 

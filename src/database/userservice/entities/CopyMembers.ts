@@ -1,28 +1,22 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Index("uid", ["uid"], {})
-@Entity("tutorcamps", { schema: "UserDB_KIMO" })
-export class Tutorcamps {
+@Entity("copy_members", { schema: "UserDB_KIMO" })
+export class CopyMembers {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
-  @Column("varchar", { name: "uid", length: 50 })
+  @Column("varchar", { name: "uid", length: 100 })
   uid: string;
 
-  @Column("int", { name: "officer_id" })
-  officerId: number;
+  @Column("int", { name: "user_id" })
+  userId: number;
 
-  @Column("int", { name: "building_id" })
-  buildingId: number;
-
-  @Column("int", { name: "branch_id" })
-  branchId: number;
+  @Column("varchar", { name: "niscode", length: 100 })
+  niscode: string;
 
   @Column("tinyint", { name: "status", default: () => "'1'" })
   status: number;
-
-  @Column("varchar", { name: "updated_by", length: 50 })
-  updatedBy: string;
 
   @Column("datetime", {
     name: "created_at",
@@ -35,4 +29,11 @@ export class Tutorcamps {
     default: () => "CURRENT_TIMESTAMP",
   })
   updatedAt: Date;
+
+  @Column("varchar", {
+    name: "updated_by",
+    length: 100,
+    default: () => "'system'",
+  })
+  updatedBy: string;
 }

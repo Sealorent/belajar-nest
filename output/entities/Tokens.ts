@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
 
 @Entity("tokens", { schema: "UserDB_KIMO" })
 export class Tokens {
-  @PrimaryColumn("varchar", { name: "id", length: 255 })
+  @Column("varchar", { name: "id", length: 255 })
   id: string;
 
   @Column("varchar", { name: "user_uid", length: 100 })

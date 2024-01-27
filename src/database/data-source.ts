@@ -26,17 +26,32 @@ const UserServiceDb = TypeOrmModule.forRootAsync({
     }),
 });
 
+// const RegistrationServiceDb = TypeOrmModule.forRoot({
+//     type: 'mysql',
+//     host: '173.212.232.47',
+//     port: 3307,
+//     username: 'root',
+//     password: 'lcbisa88',
+//     database: 'registrationservice',
+//     entities: [
+//         join(__dirname, '/userservice/entities/*{.ts,.js}'),
+//     ],
+//     synchronize: false,
+// })
+
 const RegistrationServiceDb = TypeOrmModule.forRoot({
     type: 'mysql',
-    host: '173.212.232.47',
-    port: 3307,
+    host: '103.74.5.92',
+    port: 2023,
     username: 'root',
-    password: 'lcbisa88',
-    database: 'registrationservice',
+    password: 'bhBtMZL2bV@uTqS',
+    database: 'UserDB_KIMO',
     entities: [
         join(__dirname, '/userservice/entities/*{.ts,.js}'),
     ],
     synchronize: false,
 })
+
+
 
 export { UserServiceDb, RegistrationServiceDb }
