@@ -1,65 +1,28 @@
-import { Controller, Get , Post , Body, Query} from '@nestjs/common';
+import { Controller, Get , Post , Body, Query, Req} from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
-import { ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger';
-import { Users } from '../../database/userservice/entities/Users';
-import { CreateUsersDto } from './dto/create-users.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { CourseDto } from './dto/course.dto';
+import { ApiTags, ApiBody, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateLeadDto } from './dto/create-lead.dto';
 
 @ApiTags('analytics')
 @Controller('analytics')
 export class AnalyticsController {
 
-    constructor(private service: AnalyticsService) { }
+    constructor(
 
+        private service: AnalyticsService
+
+    ) { }
     
-    @Get('test')
-    test(){
-        return this.service.test();
+
+    @Post('lead')
+    @ApiBearerAuth('access-token')
+    @ApiBody({ type: CreateLeadDto })
+    createLead(@Body() lead: CreateLeadDto ,@Req() req: any){
+        console.log('Header:', req.headers.authorization);
+        const token = req.headers.authorization.split(' ')[1]; // Assuming Bearer token is in the format "Bearer <token>"
+        console.log('Bearer token:', token);
+        return this.service.createLead(lead);
     }
-
-    @Get('query')
-    usingQuery(){
-        return this.service.usingQuery();
-    }
-
-    @Post('datasource')
-    @ApiBody({ type: CreateUsersDto, isArray: true }) 
-    usingDataSource(@Body() users: CreateUsersDto[]){
-        return this.service.usingDataSource(users);
-    }
-
-    @Post('create')
-    @ApiBody({ type: CreateUserDto, isArray: true })
-    createUser(@Body() users: CreateUsersDto[]){
-        return this.service.createUser(users);
-    }
-
-    @Get('regcodes')
-    @ApiQuery({ name: 'year', type: 'number', required: true })
-    @ApiQuery({ name: 'month', type: 'number', required: true })
-    getAllDataRegcodes(@Query('year') year: number, @Query('month') month: number) {
-      // You can access the year and month parameters here and use them in your service
-      const courseDto: CourseDto = { year, month };
-      return this.service.getAllDataRegcodes(courseDto);
-    }
-
-    @Get('year')
-    getYear(){
-        return this.service.getYear();
-    }
-
-    @Get('month')
-    getMonth(){
-        return this.service.getMonth();
-    }
-
-
-
-    // @Get('datasource')
-    // usingDataSource(){
-    //     return this.service.usingDataSource();
-    // }
 
 
 }

@@ -1,6 +1,7 @@
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { join } from 'path';
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MongooseModule } from "@nestjs/mongoose";
 
 
 const UserServiceDb = TypeOrmModule.forRootAsync({
@@ -26,18 +27,8 @@ const UserServiceDb = TypeOrmModule.forRootAsync({
     }),
 });
 
-// const RegistrationServiceDb = TypeOrmModule.forRoot({
-//     type: 'mysql',
-//     host: '173.212.232.47',
-//     port: 3307,
-//     username: 'root',
-//     password: 'lcbisa88',
-//     database: 'registrationservice',
-//     entities: [
-//         join(__dirname, '/userservice/entities/*{.ts,.js}'),
-//     ],
-//     synchronize: false,
-// })
+    
+const MarketingDb = MongooseModule.forRoot('mongodb://root:lcbisa88@173.212.232.47:8091/test?authSource=admin');
 
 const RegistrationServiceDb = TypeOrmModule.forRoot({
     type: 'mysql',
@@ -54,4 +45,4 @@ const RegistrationServiceDb = TypeOrmModule.forRoot({
 
 
 
-export { UserServiceDb, RegistrationServiceDb }
+export { UserServiceDb, RegistrationServiceDb, MarketingDb }

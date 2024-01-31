@@ -1,22 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { AnalyticsController } from './analytics.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from '../../database/userservice/entities/Users';
-import { Regcodes } from '../../database/userservice/entities/Regcodes';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Lead, LeadSchema } from '../../database/mongo/schema/lead.schema';
 
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Regcodes,
-      Users
-    ]),
+    MongooseModule.forFeature([
+      { 
+        name: Lead.name, 
+        schema: LeadSchema 
+      }
+    ])
   ],
-  exports: [
-    TypeOrmModule
-  ],
+
   providers: [AnalyticsService],
   controllers: [AnalyticsController]
 })

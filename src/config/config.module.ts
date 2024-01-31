@@ -1,13 +1,11 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { configuration } from '../config/configuration';
+import { configuration } from './configuration';
 
 const SetupConfig = ConfigModule.forRoot({ 
   envFilePath: `${process.cwd()}/.env.${process.env.NODE_ENV}`,
   load: [configuration] 
 });
-
-
   
 const SetupThrottler = ThrottlerModule.forRootAsync({
   imports: [ConfigModule],
@@ -20,4 +18,4 @@ const SetupThrottler = ThrottlerModule.forRootAsync({
   ],
 });
 
-export {  SetupConfig , SetupThrottler }
+export {SetupConfig , SetupThrottler }
